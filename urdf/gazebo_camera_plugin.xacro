@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot>  
+  <!--
+    CHANGES 
+    * Pixel numbers of image sensor reduced to 600 px x 600 px due to low fps
+
+    * Image grabbing mode changed from continuous to software trigger 
+      in order to prevent shifting between calculated distance and real distance
+
+    Image Sensor Specs used before 
+    Sensor: IMX548
+    Resolution (H x V):2448 px × 2048 px
+    Pixel Size (H x V)	2.74 μm × 2.74 μm
+
+    Image Sensor Specs used currently
+    Sensor: Custom
+    Resolution (H x V):600 px × 600 px
+    Pixel Size (H x V)	20 μm × 20 μm
+
+    Lens Specs Used currently
+    Focal lenght: 8 mm 
+
+    ###############################################################################
+
+    CALCULATING FOV
+
+    Horizontal FOV(radian) = 2 x atan((horizontal pixels * horizontal pixel size) / (2 x focal lenght))
+
+    Note: Vertical FOV is calculating according to Horizontal FOV
+  -->  
+  <!-- left camera -->
+  <gazebo reference="left_camera_link">
+    <sensor type="camera" name="camera1">
+      <update_rate>30.0</update_rate>
+      <camera name="head">
+        <horizontal_fov>1.287002218</horizontal_fov>
+        <image>
+          <width>600</width>
+          <height>600</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.02</near>
+          <far>2</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <!-- Noise is sampled independently per pixel on each frame.
+               That pixel's noise value is added to each of its color
+               channels, which at that point lie in the range [0,1]. -->
+          <mean>0.0</mean>
+          <stddev>0.007</stddev>
+        </noise>
+      </camera>
+      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>0.0</updateRate>
+        <cameraName>binocular_laser_profile_scanner/camera1</cameraName>
+        <imageTopicName>image_raw</imageTopicName>
+        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+        <frameName>camera_link</frameName>
+        <hackBaseline>0.07</hackBaseline>
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+  <!-- right camera -->
+  <gazebo reference="right_camera_link">
+    <sensor type="camera" name="camera2">
+      <update_rate>30.0</update_rate>
+      <camera name="head">
+        <horizontal_fov>1.287002218</horizontal_fov>
+        <image>
+          <width>600</width>
+          <height>600</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.02</near>
+          <far>2</far>
+        </clip>
+        <noise>
+          <type>gaussian</type>
+          <!-- Noise is sampled independently per pixel on each frame.
+               That pixel's noise value is added to each of its color
+               channels, which at that point lie in the range [0,1]. -->
+          <mean>0.0</mean>
+          <stddev>0.007</stddev>
+        </noise>
+      </camera>
+      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>0.0</updateRate>
+        <cameraName>binocular_laser_profile_scanner/camera2</cameraName>
+        <imageTopicName>image_raw</imageTopicName>
+        <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+        <frameName>camera_link</frameName>
+        <hackBaseline>0.07</hackBaseline>
+        <distortionK1>0.0</distortionK1>
+        <distortionK2>0.0</distortionK2>
+        <distortionK3>0.0</distortionK3>
+        <distortionT1>0.0</distortionT1>
+        <distortionT2>0.0</distortionT2>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+</robot>

@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="binocular_laser_profile_scanner">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0.128012382977742 9.77361559739709E-11 0.0187797304684322"
+        rpy="0 0 0" />
+      <mass
+        value="4.03487941466733" />
+      <inertia
+        ixx="0.0328465631618454"
+        ixy="-3.68284129209293E-13"
+        ixz="-0.00197998106683626"
+        iyy="0.0583371749579944"
+        iyz="2.15790695300604E-12"
+        izz="0.090142634590422" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://binocular_laser_profile_scanner/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://binocular_laser_profile_scanner/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="rot_table_link">
+    <inertial>
+      <origin
+        xyz="1.11022302462516E-16 -2.25514051876985E-17 -0.00558252427184466"
+        rpy="0 0 0" />
+      <mass
+        value="0.728064097469435" />
+      <inertia
+        ixx="0.00399298718604495"
+        ixy="-4.81482486096809E-35"
+        ixz="5.81181493833246E-20"
+        iyy="0.00399298718604495"
+        iyz="6.24204309133444E-36"
+        izz="0.00795454205132049" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://binocular_laser_profile_scanner/meshes/rot_table_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://binocular_laser_profile_scanner/meshes/rot_table_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rot_table_joint"
+    type="revolute">
+    <origin
+      xyz="0 0 0.04"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="rot_table_link" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="0"
+      upper="6.284"
+      effort="1"
+      velocity="0.001" />
+  </joint>
+  <link
+    name="object_link">
+    <inertial>
+      <origin
+        xyz="-6.05141659004715E-10 -0.00138800673460889 0.0350251504174536"
+        rpy="0 0 0" />
+      <mass
+        value="0.504992525601263" />
+      <inertia
+        ixx="0.000681034130399366"
+        ixy="-7.90858129964345E-12"
+        ixz="-7.65667749453217E-12"
+        iyy="0.00119863210321996"
+        iyz="-6.368598030135E-05"
+        izz="0.000860540458656607" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://binocular_laser_profile_scanner/meshes/object_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://binocular_laser_profile_scanner/meshes/object_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="object_joint"
+    type="fixed">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="rot_table_link" />
+    <child
+      link="object_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="motor_link">
+    <inertial>
+      <origin
+        xyz="-1.72409505864099E-05 0.0948016011415919 -0.0706217452749638"
+        rpy="0 0 0" />
+      <mass
+        value="0.0326677503219308" />
+      <inertia
+        ixx="0.000192992285092912"
+        ixy="3.57121764714506E-09"
+        ixz="-1.22037163063914E-10"
+        iyy="9.37542080656829E-05"
+        iyz="8.58695780761965E-05"
+        izz="9.98942660679039E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://binocular_laser_profile_scanner/meshes/motor_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.250980392156863 0.250980392156863 0.250980392156863 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://binocular_laser_profile_scanner/meshes/motor_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="motor_joint"
+    type="revolute">
+    <origin
+      xyz="0.18 0 0.0682"
+      rpy="0 1.5708 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="motor_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="3.142"
+      effort="1000"
+      velocity="1" />
+  </joint>
+  <link
+    name="scanner_body_link">
+    <inertial>
+      <origin
+        xyz="5.55111512312578E-17 0.0180280100720968 0.00813427100904954"
+        rpy="0 0 0" />
+      <mass
+        value="0.0750346331830441" />
+      <inertia
+        ixx="3.24887213560925E-05"
+        ixy="4.64268869737987E-20"
+        ixz="-3.23993955816057E-19"
+        iyy="0.000278211517475207"
+        iyz="-6.86010481282913E-09"
+        izz="0.00027056254718753" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://binocular_laser_profile_scanner/meshes/scanner_body_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://binocular_laser_profile_scanner/meshes/scanner_body_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="scanner_body_joint"
+    type="fixed">
+    <origin
+      xyz="-0.004 0.18003 -0.18005"
+      rpy="1.5708 -1.5708 0" />
+    <parent
+      link="motor_link" />
+    <child
+      link="scanner_body_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="line_laser_link">
+    <inertial>
+      <origin
+        xyz="5.55111512312578E-17 6.93889390390723E-18 -0.0182497785820913"
+        rpy="0 0 0" />
+      <mass
+        value="0.00401884835156133" />
+      <inertia
+        ixx="4.82238549718037E-07"
+        ixy="-3.21692401720561E-23"
+        ixz="1.93545903011453E-23"
+        iyy="4.82238549718037E-07"
+        iyz="-1.34666932274695E-23"
+        izz="7.10331313031032E-08" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://binocular_laser_profile_scanner/meshes/line_laser_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://binocular_laser_profile_scanner/meshes/line_laser_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="line_laser_joint"
+    type="revolute">
+    <origin
+      xyz="0 0.0175 0.026246"
+      rpy="0 0 0" />
+    <parent
+      link="scanner_body_link" />
+    <child
+      link="line_laser_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="left_camera_link">
+    <inertial>
+      <origin
+        xyz="0.00718739952404657 -8.76421874261568E-07 2.77179424118534E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.00168291871401848" />
+      <inertia
+        ixx="2.94345606724704E-08"
+        ixy="2.56047480276639E-12"
+        ixz="5.35086001564684E-12"
+        iyy="5.6998274792554E-08"
+        iyz="6.06355614440896E-12"
+        izz="5.69944198559423E-08" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://binocular_laser_profile_scanner/meshes/left_camera_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://binocular_laser_profile_scanner/meshes/left_camera_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="left_camera_joint"
+    type="fixed">
+    <origin
+      xyz="0.073979 0.0175 0.031514"
+      rpy="3.1416 -0.71883 -3.1416" />
+    <parent
+      link="scanner_body_link" />
+    <child
+      link="left_camera_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="right_camera_link">
+    <inertial>
+      <origin
+        xyz="0.00718739952404637 8.76421874233813E-07 -2.77179424124085E-06"
+        rpy="0 0 0" />
+      <mass
+        value="0.0016829187140185" />
+      <inertia
+        ixx="2.94345606724709E-08"
+        ixy="-2.56047480300339E-12"
+        ixz="-5.35086001653936E-12"
+        iyy="5.69982747925551E-08"
+        iyz="6.06355614406922E-12"
+        izz="5.69944198559437E-08" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://binocular_laser_profile_scanner/meshes/right_camera_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://binocular_laser_profile_scanner/meshes/right_camera_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="right_camera_joint"
+    type="fixed">
+    <origin
+      xyz="-0.073979 0.0175 0.031514"
+      rpy="0 -0.71883 0" />
+    <parent
+      link="scanner_body_link" />
+    <child
+      link="right_camera_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+</robot>
