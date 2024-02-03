@@ -30,7 +30,7 @@
   -->  
   <!-- left camera -->
   <gazebo reference="left_camera_link">
-    <sensor type="camera" name="camera1">
+    <sensor type="camera" name="left_camera">
       <update_rate>30.0</update_rate>
       <camera name="head">
         <horizontal_fov>1.287002218</horizontal_fov>
@@ -55,7 +55,7 @@
       <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
         <alwaysOn>true</alwaysOn>
         <updateRate>0.0</updateRate>
-        <cameraName>binocular_laser_profile_scanner/camera1</cameraName>
+        <cameraName>binocular_laser_profile_scanner/left_camera</cameraName>
         <imageTopicName>image_raw</imageTopicName>
         <cameraInfoTopicName>camera_info</cameraInfoTopicName>
         <frameName>camera_link</frameName>
@@ -71,7 +71,7 @@
 
   <!-- right camera -->
   <gazebo reference="right_camera_link">
-    <sensor type="camera" name="camera2">
+    <sensor type="camera" name="right_camera">
       <update_rate>30.0</update_rate>
       <camera name="head">
         <horizontal_fov>1.287002218</horizontal_fov>
@@ -96,7 +96,7 @@
       <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
         <alwaysOn>true</alwaysOn>
         <updateRate>0.0</updateRate>
-        <cameraName>binocular_laser_profile_scanner/camera2</cameraName>
+        <cameraName>binocular_laser_profile_scanner/right_camera</cameraName>
         <imageTopicName>image_raw</imageTopicName>
         <cameraInfoTopicName>camera_info</cameraInfoTopicName>
         <frameName>camera_link</frameName>

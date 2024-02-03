@@ -5,6 +5,7 @@ find_package(catkin REQUIRED COMPONENTS
     message_generation
     roscpp
     rospy
+    cv_bridge
     std_msgs
     geometry_msgs
     urdf
@@ -16,12 +17,13 @@ catkin_package(CATKIN_DEPENDS
     geometry_msgs
     roscpp
     rospy
+    cv_bridge
     std_msgs
 )
 
 find_package(roslaunch)
 
-foreach(dir config launch meshes urdf)
+foreach(dir config launch meshes urdf scripts)
     install(DIRECTORY ${dir}/
         DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/${dir})
 endforeach(dir)
