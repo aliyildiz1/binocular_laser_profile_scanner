@@ -1,18 +1,22 @@
-<?xml version="1.0"?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
-
-    <gazebo reference="line_laser_link">
-        <material>Gazebo/Red</material>
-        <projector name="line_projector">
-            <pose> 0 0 0 0 0 0 </pose>
-            <texture>building_frame.png</texture>
-            <near_clip>0.01</near_clip>
-            <far_clip>10.0</far_clip>
-            <fov>0.5</fov>
-            <plugin name="projector_controller" filename="libgazebo_ros_projector.so">
-                <update_rate>10.0</update_rate>
-            </plugin>    
-        </projector>
-    </gazebo>
-
+<?xml version="1.0" encoding="utf-8"?>
 <robot>
+  <gazebo reference="line_laser_link">
+    <projector name="projector">
+      <pose>0 0 0 0 ${pi} 0</pose>
+      <texture>line_laser.png</texture>
+      <fov>2.0</fov>
+      <near_clip>0.005</near_clip>
+      <far_clip>1.0</far_clip>
+    </projector>
+  </gazebo>
+  <gazebo>
+    <plugin name="projector_controller" filename="libgazebo_ros_projector.so">
+      <projector>line_laser_link/projector</projector>
+      <alwaysOn>true</alwaysOn>
+      <updateRate>15.0</updateRate>
+      <textureName>line_laser.png</textureName>
+      <textureTopicName>projector_controller/image</textureTopicName>
+      <projectorTopicName>projector_controller/projector</projectorTopicName>
+    </plugin>
+  </gazebo>
+</robot>

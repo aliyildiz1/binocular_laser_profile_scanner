@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="binocular_laser_profile_scanner">
 
-  <xacro:include filename="$(find binocular_laser_profile_scanner)/urdf/gazebo_camera_plugin.xacro"/>
+  <xacro:include filename="$(find binocular_laser_profile_scanner)/urdf/gazebo_camera.xacro"/>
+  <xacro:include filename="$(find binocular_laser_profile_scanner)/urdf/gazebo_projector.xacro"/>
+  <xacro:include filename="$(find binocular_laser_profile_scanner)/urdf/gazebo_controller.xacro"/>
   
   <link name="world"/>
 
@@ -437,75 +439,5 @@
     <axis
       xyz="0 0 0" />
   </joint>
-  
-  <!-- projector deneme v1 
-  <gazebo reference="line_laser_link">
-    <material>Gazebo/Red</material>
-    <projector name="line_projector">
-      <pose> 0 0 0 0 0 0 </pose>
-      <texture>building_frame.png</texture>
-      <near_clip>0.01</near_clip>
-      <far_clip>10.0</far_clip>
-      <fov>0.1</fov>
-      <plugin name="projector_controller" filename="libgazebo_ros_projector.so">
-        <update_rate>10.0</update_rate>
-      </plugin>    
-    </projector>
-  </gazebo>
-  -->
-
-  <gazebo reference="line_laser_link">
-    <projector name="projector">
-      <pose>0 0 0 0 ${pi} 0</pose>
-      <texture>line_laser.png</texture>
-      <fov>2.0</fov>
-      <near_clip>0.005</near_clip>
-      <far_clip>1.0</far_clip>
-    </projector>
-  </gazebo>
-  <gazebo>
-    <plugin name="projector_controller" filename="libgazebo_ros_projector.so">
-      <projector>line_laser_link/projector</projector>
-      <alwaysOn>true</alwaysOn>
-      <updateRate>15.0</updateRate>
-      <textureName>line_laser_5p.png</textureName>
-      <textureTopicName>projector_controller/image</textureTopicName>
-      <projectorTopicName>projector_controller/projector</projectorTopicName>
-    </plugin>
-  </gazebo>
-
-  <!-- Line Laser Projector -->
-  <!--
-  <xacro:include filename="$(find binocular_laser_profile_scanner)/urdf/gazebo_projector.xacro"/>
-  -->
-
-  <gazebo>
-    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-      <robotNamespace>/binocular_laser_profile_scanner</robotNamespace>
-      <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
-    </plugin>
-  </gazebo>
-
-  <transmission name="tran1">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="rot_table_joint">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="rot_table_motor">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission>
-
-   <transmission name="tran2">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="motor_joint">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="scanner_angle_motor">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission> 
 
 </robot>

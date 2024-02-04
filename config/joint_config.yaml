@@ -4,12 +4,12 @@ binocular_laser_profile_scanner:
     publish_rate: 50
 
   # position controller
-  rot_table_position_controller:
+  rot_table_angular_position_controller:
     type: effort_controllers/JointPositionController
     joint: rot_table_joint
     pid: {p: 10.0, i: 5.0, d: 1.0}
 
-  scanner_angle_position_controller:
+  scanner_angular_position_controller:
     type: effort_controllers/JointPositionController
     joint: motor_joint
     pid: {p: 10.0, i: 5.0, d: 1.0}

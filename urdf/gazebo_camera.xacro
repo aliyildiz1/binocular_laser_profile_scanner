@@ -4,9 +4,6 @@
     CHANGES 
     * Pixel numbers of image sensor reduced to 600 px x 600 px due to low fps
 
-    * Image grabbing mode changed from continuous to software trigger 
-      in order to prevent shifting between calculated distance and real distance
-
     Image Sensor Specs used before 
     Sensor: IMX548
     Resolution (H x V):2448 px × 2048 px
