@@ -3,7 +3,7 @@ binocular_laser_profile_scanner:
     type: joint_state_controller/JointStateController
     publish_rate: 50
 
-  # position controller
+  # position controllers
   rot_table_angular_position_controller:
     type: effort_controllers/JointPositionController
     joint: rot_table_joint

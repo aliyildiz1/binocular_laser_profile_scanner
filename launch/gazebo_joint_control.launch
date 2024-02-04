@@ -33,6 +33,8 @@
     <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
     output="screen"
     ns="/binocular_laser_profile_scanner"
-    args="joint_state_controller rot_table_angular_position_controller scanner_angular_position_controller"/>
+    args="joint_state_controller 
+          rot_table_angular_position_controller 
+          scanner_angular_position_controller"/>
 
 </launch>

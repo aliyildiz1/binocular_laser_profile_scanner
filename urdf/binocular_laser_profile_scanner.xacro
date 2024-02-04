@@ -108,7 +108,7 @@
     <limit
       lower="0"
       upper="6.284"
-      effort="1"
+      effort="0.1"
       velocity="0.001" />
   </joint>
   <link
