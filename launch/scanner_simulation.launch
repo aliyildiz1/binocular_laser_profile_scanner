@@ -27,6 +27,13 @@
 
     <!--robot state publisher-->
     <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher"/>
+    
+    <!--rviz-->
+    <node name="rviz" pkg="rviz" type="rviz" args=" -d $(find binocular_laser_profile_scanner)/config/config.rviz"/>
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+        <param name="/use_gui" value="false"/>
+        <rosparam param="/source_list">[/binocular_laser_profile_scanner/joint_states]</rosparam>
+    </node>
 
     <!--load joint position controller-->
     <rosparam file="$(find binocular_laser_profile_scanner)/config/joint_config.yaml" command="load"/>
