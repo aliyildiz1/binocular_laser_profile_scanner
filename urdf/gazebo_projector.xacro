@@ -3,8 +3,8 @@
   <gazebo reference="line_laser_link">
     <projector name="projector">
       <pose>0 0 0 0 ${pi} 0</pose>
-      <texture>line_laser.png</texture>
-      <fov>2.0</fov>
+      <texture>line_laser_5p.png</texture>
+      <fov>1.57</fov>
       <near_clip>0.005</near_clip>
       <far_clip>1.0</far_clip>
     </projector>
@@ -14,7 +14,7 @@
       <projector>line_laser_link/projector</projector>
       <alwaysOn>true</alwaysOn>
       <updateRate>15.0</updateRate>
-      <textureName>line_laser.png</textureName>
+      <textureName>line_laser_5p.png</textureName>
       <textureTopicName>projector_controller/image</textureTopicName>
       <projectorTopicName>projector_controller/projector</projectorTopicName>
     </plugin>

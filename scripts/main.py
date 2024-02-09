@@ -44,7 +44,7 @@ class binocular_scanner():
         self.rot_table_pos = Float64()
         self.scanner_pos = Float64()
         
-        self.rot_table_pos.data = 359 * math.pi / 180
+        self.rot_table_pos.data = 180 * math.pi / 180
         self.scanner_pos.data = 15 * math.pi / 180
 
         # ----------------------------------------------------------
@@ -142,6 +142,7 @@ class binocular_scanner():
         try:
             bridge = CvBridge()
             cv_image = bridge.imgmsg_to_cv2(image_msg, "bgr8")
+            cv2.imwrite("right_cam_image.png", cv_image)
             if self.show_img is True:
                 cv2.imshow("right", cv_image)
                 cv2.waitKey(1)
