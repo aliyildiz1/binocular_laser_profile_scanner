@@ -6,6 +6,9 @@ import math
 x = 300
 y = 300
 
+cal_py = 1.33
+cal_pz = 1.0
+
 p_w = 600 # horizontal pixel number
 p_h = 600 # vertical pixel number
 p_size = 0.02 # pixel size
@@ -34,8 +37,8 @@ py = (c_x*p_o_f*math.sin(beta))/(fc*math.sin(beta)+c_y*math.cos(beta)) # y axis 
 
 # translation of y-z coordinates from origin to laser coordinate system
 # unit changed mm to m
-py = (-1 * py) / 1000
-pz = ((-1 * pz) - l_o) / 1000
+py = (-1 * py * cal_py) / 1000
+pz = ((-1 * pz * cal_pz) + l_o) / 1000
 
 print("x: ", x)
 print("y: ", y)

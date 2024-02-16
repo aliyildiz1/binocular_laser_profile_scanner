@@ -40,6 +40,9 @@ def calculate_pos(pos):
     x = pos[0]
     y = pos[1]
 
+    cal_py = 1.33
+    cal_pz = 1.0
+
     # Centering pixel coordinates
     c_x = (x - p_w / 2) * p_size + p_size / 2                              # camera x axis distance  
     c_y = (y - p_h / 2) * p_size + p_size / 2                              # camera y axis distance
@@ -52,8 +55,8 @@ def calculate_pos(pos):
 
     # Translation of y-z coordinates from origin to laser coordinate system
     # Changing units from mm to m
-    py = (-1 * py) / 1000
-    pz = ((-1 * pz) - l_o) / 1000
+    py = (-1 * py * cal_py) / 1000
+    pz = ((-1 * pz * cal_pz) + l_o) / 1000
 
     # Since the measurement is made in the y-z plane(line laser plane), the x-axis is always zero
     return np.array([0, py, pz])
