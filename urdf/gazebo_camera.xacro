@@ -28,7 +28,7 @@
   <!-- left camera -->
   <gazebo reference="left_camera_link">
     <sensor type="camera" name="left_camera">
-      <update_rate>30.0</update_rate>
+      <update_rate>5.0</update_rate>
       <camera name="head">
         <horizontal_fov>1.287002218</horizontal_fov>
         <image>
@@ -69,7 +69,7 @@
   <!-- right camera -->
   <gazebo reference="right_camera_link">
     <sensor type="camera" name="right_camera">
-      <update_rate>30.0</update_rate>
+      <update_rate>5.0</update_rate>
       <camera name="head">
         <horizontal_fov>1.287002218</horizontal_fov>
         <image>
