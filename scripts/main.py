@@ -30,7 +30,7 @@ class binocular_scanner():
         self.left_cam_img = None
         self.show_img = False
 
-        self.rot_table_angles = np.arange(0.0, 6.4, 0.1)
+        self.rot_table_angles = np.arange(0.0, 6.4, 0.02)
         self.rot_table_pos_msg = 0
         self.scanner_pos_msg = 0
         
@@ -84,7 +84,7 @@ class binocular_scanner():
         # INIT PUBLISHERS
         # ----------------------------------------------------------
         self.pcl_pub = rospy.Publisher('point_cloud', PointCloud2, queue_size=1)
-        self.pcl_pub_rate = rospy.Rate(1)  # 1 Hz
+        self.pcl_pub_rate = rospy.Rate(5)  # 1 Hz
 
         self.rot_table_pos_pub = rospy.Publisher(self.rot_table_pos_cmd_topic, Float64, queue_size=1)
         self.scanner_pos_pub = rospy.Publisher(self.scanner_pos_cmd_topic, Float64, queue_size=1)
@@ -125,17 +125,16 @@ class binocular_scanner():
 
             self.pcl_pub_rate.sleep()
 
+        time.sleep(1)
         print("Scan Started!")
-        print(self.rot_table_angles)
         for angle in self.rot_table_angles:
             while not rospy.is_shutdown():
                 self.rot_table_pos_pub.publish(angle)
 
                 if angle + 0.02 >= self.rot_table_pos_msg >= angle - 0.02:
-                    # print("Current rot table angle: ", angle*180/math.pi)
 
-                    time.sleep(0.5)
                     if self.right_cam_img is not None:
+                        print("Scan started at angle: ", angle*180/math.pi)
                         self.scan_img(self.right_cam_img)
                         self.publish_point_cloud()
                         break
@@ -144,7 +143,8 @@ class binocular_scanner():
                 
                 self.pcl_pub_rate.sleep()
 
-            print("Scanned rot table angle: ", angle*180/math.pi)
+            print("Scanned completed at angle: ", angle*180/math.pi)
+            print()
 
     def callback_left_cam(self, image_msg):
         pass

@@ -108,8 +108,8 @@
     <limit
       lower="0"
       upper="12.568"
-      effort="1.0"
-      velocity="0.001" />
+      effort="100.0"
+      velocity="0.01" />
   </joint>
   <link
     name="object_link">
