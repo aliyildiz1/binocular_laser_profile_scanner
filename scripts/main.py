@@ -30,7 +30,7 @@ class binocular_scanner():
         self.left_cam_img = None
         self.show_img = False
 
-        self.rot_table_angles = np.arange(0.0, 6.4, 0.02)
+        self.rot_table_scan_angles = np.arange(0.0, 6.4, 0.02)
         self.rot_table_pos_msg = 0
         self.scanner_pos_msg = 0
         
@@ -71,8 +71,8 @@ class binocular_scanner():
         # ----------------------------------------------------------
         # INIT SUBSCRIBERS
         # ----------------------------------------------------------
-        #self.left_cam_image_subcriber = rospy.Subscriber(self.left_cam_topic, Image, self.callback_left_cam, queue_size = 1, buff_size=2**19)
-        #print("Subscribed images from topic /" + self.left_cam_topic)
+        self.left_cam_image_subcriber = rospy.Subscriber(self.left_cam_topic, Image, self.callback_left_cam, queue_size = 1, buff_size=2**8)
+        print("Subscribed images from topic /" + self.left_cam_topic)
 
         self.right_cam_image_subcriber = rospy.Subscriber(self.right_cam_topic, Image, self.callback_right_cam, queue_size = 1, buff_size=2**8)
         print("Subscribed images from topic /" + self.right_cam_topic)
@@ -91,43 +91,48 @@ class binocular_scanner():
 
         if self.show_img is True:
             # cv2.imshow is not thread safe. Thats why, I create 2 named window to display camera images
-            # cv2.namedWindow("left_img", cv2.WINDOW_NORMAL)
+            cv2.namedWindow("left_img", cv2.WINDOW_NORMAL)
             cv2.namedWindow("right_img", cv2.WINDOW_NORMAL)
 
     def run(self):        
-        # Reset scanner angle
+        # ----------------------------------------------------------
+        # RESET SCANNER ANGLE
+        # ----------------------------------------------------------
         while True:
             self.scanner_pos_pub.publish(self.scanner_pos.data)
-            self.is_scanner_moving = True
             
             print("Scanner angular position(command): ", self.scanner_pos.data)
             print("Scanner angular position(current): ", self.scanner_pos_msg)
             print()
             
             if self.scanner_pos.data + 0.02 >= self.scanner_pos_msg >= self.scanner_pos.data - 0.02:
-                self.is_scanner_moving = False
                 break
 
             self.pcl_pub_rate.sleep()
 
-        # Reset rot table angle
+        # ----------------------------------------------------------
+        # RESET ROT TABLE ANGLE
+        # ----------------------------------------------------------
         while True:
             self.rot_table_pos_pub.publish(self.rot_table_pos.data)
-            self.is_scanner_moving = True
             
             print("Rot table angular position(command): ", self.rot_table_pos.data)
             print("Rot table angular position(current): ", self.rot_table_pos_msg)
             print()
             
             if self.rot_table_pos.data + 0.02 >= self.rot_table_pos_msg >= self.rot_table_pos.data - 0.02:
-                self.is_scanner_moving = False
                 break
 
             self.pcl_pub_rate.sleep()
 
-        time.sleep(1)
+        # ----------------------------------------------------------
+        # START SCANNING
+        # ----------------------------------------------------------
+        time.sleep(2)
         print("Scan Started!")
-        for angle in self.rot_table_angles:
+        print()
+
+        for angle in self.rot_table_scan_angles:
             while not rospy.is_shutdown():
                 self.rot_table_pos_pub.publish(angle)
 
@@ -135,60 +140,106 @@ class binocular_scanner():
 
                     if self.right_cam_img is not None:
                         print("Scan started at angle: ", angle*180/math.pi)
-                        self.scan_img(self.right_cam_img)
-                        self.publish_point_cloud()
+                        self.scan_img(self.left_cam_img, self.right_cam_img)
+                        self.publish_point_cloud(self.points)
                         break
                     else:
-                        print("right cam img is None")
+                        print("File write error")
                 
                 self.pcl_pub_rate.sleep()
 
             print("Scanned completed at angle: ", angle*180/math.pi)
             print()
+        
+        print("Scan completed")
+        self.save_point_cloud(self.pcl_transformed, "src/binocular_laser_profile_scanner/scans/scanned_point_cloud")
 
+        # ----------------------------------------------------------
+        # PUBLISH POINT CLOUD UNTIL SHUTDOWN
+        # ----------------------------------------------------------
+        while not rospy.is_shutdown():
+            self.pcl_pub.publish(self.pcl_transformed)
+
+    # ----------------------------------------------------------
+    # MESSAGE CALLBACKS
+    # ----------------------------------------------------------
     def callback_left_cam(self, image_msg):
-        pass
+        try:
+            bridge = CvBridge()
+            self.left_cam_img = bridge.imgmsg_to_cv2(image_msg, "bgr8")
+        except CvBridgeError as error:
+            rospy.logerr(error)
+
+        if self.show_img is True:
+            cv2.imshow("left_img", self.right_cam_img)
+            cv2.waitKey(1)
     
     def callback_right_cam(self, image_msg):
         try:
             bridge = CvBridge()
             self.right_cam_img = bridge.imgmsg_to_cv2(image_msg, "bgr8")
         except CvBridgeError as error:
-            print(error)
+            rospy.logerr(error)
 
         if self.show_img is True:
             cv2.imshow("right_img", self.right_cam_img)
             cv2.waitKey(1)
 
-
     def callback_joint_states(self, joint_state_msg):
         self.scanner_pos_msg = joint_state_msg.position[0]
         self.rot_table_pos_msg = joint_state_msg.position[1]
 
-    def publish_point_cloud(self):
+    # ----------------------------------------------------------
+    # SCAN IMAGES FUNCTION
+    # ----------------------------------------------------------
+    def scan_img(self, left_cam_img, right_cam_img):
+        # Laser triangulation formula calculated according to right cam image.
+        # Since right and left cam images are symmetrical, 
+        # you can just flip left cam image vertically and use same laser triangulation formula.
+
+        # vertical flip
+        left_cam_img = cv2.flip(left_cam_img, 0)
+
+        # thinning
+        left_cam_img_thinned = thin(left_cam_img)
+        right_cam_img_thinned = thin(right_cam_img)
+
+        # finding non zero points
+        non_zero_pts_left = cv2.findNonZero(left_cam_img_thinned)
+        non_zero_pts_right = cv2.findNonZero(right_cam_img_thinned)
+
+        non_zero_pts = np.concatenate([non_zero_pts_left, non_zero_pts_right])
+        non_zero_pts = np.unique(non_zero_pts, axis=0)
+
+        # laser triangulation
+        if non_zero_pts is not None:
+            self.points = calculate_multiple_pos(non_zero_pts)
+
+    # ----------------------------------------------------------
+    # CREATE AND PUBLISH POINT CLOUD FUNCTION
+    # ----------------------------------------------------------
+    def publish_point_cloud(self, points):
+        # creating point cloud
         header = Header()
         header.stamp = rospy.Time.now()
         header.frame_id = self.pcl_frame_id
         
-        point_cloud = pc2.create_cloud_xyz32(header, self.points)
+        point_cloud = pc2.create_cloud_xyz32(header, points)
 
+        # transforming point cloud from laser frame to rot table frame
         self.pcl_transformed = self.transform_point_cloud(point_cloud,
                                                           from_frame=self.pcl_source_frame,
                                                           to_frame=self.pcl_target_frame)
 
+        # publishing transformed point cloud
         self.pcl_pub.publish(self.pcl_transformed)
 
-    def scan_img(self, img):
-        # laser triangulation
-        thinned_img = thin(img)
-        non_zero_pts = cv2.findNonZero(thinned_img)
-
-        if non_zero_pts is not None:
-            with self.msg_lock:
-                self.points = calculate_multiple_pos(non_zero_pts)
-    
+    # ----------------------------------------------------------
+    # TRANSFORM POINT CLOUD
+    # ----------------------------------------------------------    
     def transform_point_cloud(self, point_cloud, from_frame, to_frame):
         try:
+            # getting transformation matrix from /tf2 topic
             tf_buffer = tf2_ros.Buffer()
             tf_listener = tf2_ros.TransformListener(tf_buffer)
             transform = tf_buffer.lookup_transform(target_frame=to_frame,
@@ -196,6 +247,7 @@ class binocular_scanner():
                                                    time=rospy.Time(0),
                                                    timeout=rospy.Duration(1.0))
             
+            # transforming every point to rot table frame
             for point in pc2.read_points(point_cloud, skip_nans=True):
                 p = PointStamped()
                 p.header.frame_id = from_frame
@@ -205,13 +257,42 @@ class binocular_scanner():
                 transformed_point = tf_buffer.transform(p, to_frame, rospy.Duration(1.0))
                 self.transformed_points.append([transformed_point.point.x, transformed_point.point.y, transformed_point.point.z])
             
+            # creating point cloud with transformed points
             point_cloud.header.frame_id = to_frame
             new_cloud = pc2.create_cloud_xyz32(point_cloud.header, np.array(self.transformed_points))
-            return new_cloud       
+            return new_cloud
+        
         except (tf2_ros.LookupException, tf2_ros.ConnectivityException, tf2_ros.ExtrapolationException):
             rospy.logwarn("Cant obtain transformation matrix!")
         
         return None
+    
+    # ----------------------------------------------------------
+    # SAVE POINT CLOUD FUNCTION
+    # ----------------------------------------------------------
+    def save_point_cloud(self, point_cloud, point_cloud_name):
+        try:
+            with open(point_cloud_name + ".pcd", "w") as f:
+                f.write("# .PCD v0.7 - Point Cloud Data file format\n")
+                f.write("VERSION 0.7\n")
+                f.write("FIELDS x y z\n")
+                f.write("SIZE 4 4 4\n")
+                f.write("TYPE F F F\n")
+                f.write("COUNT 1 1 1\n")
+                f.write("WIDTH {}\n".format(point_cloud.width))
+                f.write("HEIGHT 1\n")
+                f.write("VIEWPOINT 0 0 0 1 0 0 0\n")
+                f.write("POINTS {}\n".format(point_cloud.width))
+                f.write("DATA ascii\n")
+                
+                for point in pc2.read_points(point_cloud, field_names=("x", "y", "z"), skip_nans=True):
+                    f.write("{} {} {}\n".format(point[0], point[1], point[2]))
+                    
+            print("Point cloud saved: " + point_cloud_name + ".pcd")
+
+        except IOError:
+            rospy.logerr("File write error")
+
 
 if __name__ == '__main__':
     scanner = binocular_scanner()
