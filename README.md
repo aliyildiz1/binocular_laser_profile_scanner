@@ -44,6 +44,11 @@ cd ..
 catkin_make
 ```
 
+* In order to load texture to projector, you need to copy texture image to `/usr/share/gazebo-11/media/materials/textures/`. Copy texture image by executing:
+```bash
+sudo cp ~/catkin_ws/src/binocular_laser_profile_scanner/projector_textures/line_laser_5p.png /usr/share/gazebo-11/media/materials/textures
+```
+
 * Launch simulation:
 ```bash
 source ~/catkin_ws/devel/setup.bash
