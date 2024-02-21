@@ -22,7 +22,6 @@
   <build_depend>urdf</build_depend>
   <build_depend>xacro</build_depend>
   <build_depend>std_msgs</build_depend>
-  <build_depend>message_generation</build_depend>
 
   <depend>roslaunch</depend>
   <depend>robot_state_publisher</depend>
