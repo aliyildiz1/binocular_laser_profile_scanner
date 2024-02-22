@@ -145,7 +145,7 @@ class binocular_scanner():
                     if self.right_cam_img is not None:
                         print("Scan started at angle: ", angle*180/math.pi)
                         self.scan_img(self.left_cam_img, self.right_cam_img)
-                        # self.publish_point_cloud(self.points)
+                        self.publish_point_cloud(self.points)
                         break
                     else:
                         print("File write error")
