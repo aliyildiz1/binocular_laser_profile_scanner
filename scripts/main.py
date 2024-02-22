@@ -30,11 +30,15 @@ class binocular_scanner():
         self.left_cam_img = None
         self.show_img = False
 
-        self.rot_table_scan_angles = np.arange(0.0, 6.4, 0.02)
+        # Rot table scan angles
+        from_angle = 0.0
+        to_angle = math.pi * 2
+        increment = math.pi / 180
+        self.rot_table_scan_angles = np.arange(from_angle, to_angle, increment)
+
         self.rot_table_pos_msg = 0
         self.scanner_pos_msg = 0
         
-        self.max_points = 1000000
         self.points = []
         self.transformed_points = []
         self.pcl_transformed = None
@@ -84,7 +88,7 @@ class binocular_scanner():
         # INIT PUBLISHERS
         # ----------------------------------------------------------
         self.pcl_pub = rospy.Publisher('point_cloud', PointCloud2, queue_size=1)
-        self.pcl_pub_rate = rospy.Rate(5)  # 1 Hz
+        self.pcl_pub_rate = rospy.Rate(5)  # 5 Hz
 
         self.rot_table_pos_pub = rospy.Publisher(self.rot_table_pos_cmd_topic, Float64, queue_size=1)
         self.scanner_pos_pub = rospy.Publisher(self.scanner_pos_cmd_topic, Float64, queue_size=1)
@@ -141,7 +145,7 @@ class binocular_scanner():
                     if self.right_cam_img is not None:
                         print("Scan started at angle: ", angle*180/math.pi)
                         self.scan_img(self.left_cam_img, self.right_cam_img)
-                        self.publish_point_cloud(self.points)
+                        # self.publish_point_cloud(self.points)
                         break
                     else:
                         print("File write error")
