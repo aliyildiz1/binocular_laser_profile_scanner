@@ -23,12 +23,12 @@ sudo apt install libpcl-dev pcl-tools
 ```
 
 ## Environment Setup
-Source following bash script for using ROS terminal commands. If you do not want to type this command every time you open a terminal, you can add it to `~/.bashrc`.
+* Source following bash script for using ROS terminal commands. If you do not want to type this command every time you open a terminal, you can add it to `~/.bashrc`.
 ```bash
 source /opt/ros/noetic/setup.bash
 ```
 
-Creating catkin workspace:
+* Creating catkin workspace:
 ```bash
 mkdir -p ~/catkin_ws/src
 cd ~/catkin_ws/
@@ -62,7 +62,7 @@ source devel/setup.bash
 rosrun binocular_laser_profile_scanner main.py
 ```
 
-After the scanning is completed, the point cloud is saved in the `~/catkin_ws/src/binocular_laser_profile_scanner/scans` folder.
+* After the scanning is completed, the point cloud is saved in the `~/catkin_ws/src/binocular_laser_profile_scanner/scans` folder.
 To visualize point cloud, execute following commands:
 ```bash
 cd ~/catkin_ws/src/binocular_laser_profile_scanner/scans/
