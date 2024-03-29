@@ -16,7 +16,7 @@ from tf2_geometry_msgs import PointStamped
 from cv_bridge import CvBridge, CvBridgeError
 from threading import Lock
 
-from thinning import thin
+from thinning import find_center_pixels
 from laser_triangulation import calculate_multiple_pos
 
 
@@ -144,6 +144,10 @@ class binocular_scanner():
 
                     if self.right_cam_img is not None:
                         print("Scan started at angle: ", angle*180/math.pi)
+                        # Since the images taken from the camera are kept in the queue, 
+                        # it is necessary to wait a little for the real-time image to be available. 
+                        # I'm leaving it this way until I find a better method.
+                        time.sleep(0.5)
                         self.scan_img(self.left_cam_img, self.right_cam_img)
                         self.publish_point_cloud(self.points)
                         break
@@ -201,23 +205,12 @@ class binocular_scanner():
         # Since right and left cam images are symmetrical, 
         # you can just flip left cam image vertically and use same laser triangulation formula.
 
-        # vertical flip
-        left_cam_img = cv2.flip(left_cam_img, 0)
-
         # thinning
-        left_cam_img_thinned = thin(left_cam_img)
-        right_cam_img_thinned = thin(right_cam_img)
-
-        # finding non zero points
-        non_zero_pts_left = cv2.findNonZero(left_cam_img_thinned)
-        non_zero_pts_right = cv2.findNonZero(right_cam_img_thinned)
-
-        non_zero_pts = np.concatenate([non_zero_pts_left, non_zero_pts_right])
-        non_zero_pts = np.unique(non_zero_pts, axis=0)
+        thinned_img_pixels= find_center_pixels(left_cam_img, right_cam_img)
 
         # laser triangulation
-        if non_zero_pts is not None:
-            self.points = calculate_multiple_pos(non_zero_pts)
+        if thinned_img_pixels is not None:
+            self.points = calculate_multiple_pos(thinned_img_pixels)
 
     # ----------------------------------------------------------
     # CREATE AND PUBLISH POINT CLOUD FUNCTION
