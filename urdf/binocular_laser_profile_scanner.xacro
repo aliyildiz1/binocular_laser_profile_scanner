@@ -4,7 +4,7 @@
   <xacro:include filename="$(find binocular_laser_profile_scanner)/urdf/gazebo_camera.xacro"/>
   <xacro:include filename="$(find binocular_laser_profile_scanner)/urdf/gazebo_projector.xacro"/>
   <xacro:include filename="$(find binocular_laser_profile_scanner)/urdf/gazebo_controller.xacro"/>
-  
+
   <link name="world"/>
 
   <joint name="world_joint" type="fixed">
@@ -35,7 +35,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://binocular_laser_profile_scanner/meshes/base_link.STL" />
+          filename="file://$(find binocular_laser_profile_scanner)/meshes/base_link.STL" />
       </geometry>
       <material
         name="">
@@ -49,7 +49,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://binocular_laser_profile_scanner/meshes/base_link.STL" />
+          filename="file://$(find binocular_laser_profile_scanner)/meshes/base_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -75,7 +75,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://binocular_laser_profile_scanner/meshes/rot_table_link.STL" />
+          filename="file://$(find binocular_laser_profile_scanner)/meshes/rot_table_link.STL" />
       </geometry>
       <material
         name="">
@@ -89,7 +89,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://binocular_laser_profile_scanner/meshes/rot_table_link.STL" />
+          filename="file://$(find binocular_laser_profile_scanner)/meshes/rot_table_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -133,7 +133,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://binocular_laser_profile_scanner/meshes/object_link.STL" />
+          filename="file://$(find binocular_laser_profile_scanner)/meshes/object_link.STL" />
       </geometry>
       <material
         name="">
@@ -147,7 +147,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://binocular_laser_profile_scanner/meshes/object_link.STL" />
+          filename="file://$(find binocular_laser_profile_scanner)/meshes/object_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -186,7 +186,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://binocular_laser_profile_scanner/meshes/motor_link.STL" />
+          filename="file://$(find binocular_laser_profile_scanner)/meshes/motor_link.STL" />
       </geometry>
       <material
         name="">
@@ -200,7 +200,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://binocular_laser_profile_scanner/meshes/motor_link.STL" />
+          filename="file://$(find binocular_laser_profile_scanner)/meshes/motor_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -217,7 +217,7 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="0"
+      lower="-0.2"
       upper="3.142"
       effort="1000"
       velocity="1" />
@@ -244,7 +244,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://binocular_laser_profile_scanner/meshes/scanner_body_link.STL" />
+          filename="file://$(find binocular_laser_profile_scanner)/meshes/scanner_body_link.STL" />
       </geometry>
       <material
         name="">
@@ -258,7 +258,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://binocular_laser_profile_scanner/meshes/scanner_body_link.STL" />
+          filename="file://$(find binocular_laser_profile_scanner)/meshes/scanner_body_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -297,7 +297,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://binocular_laser_profile_scanner/meshes/line_laser_link.STL" />
+          filename="file://$(find binocular_laser_profile_scanner)/meshes/line_laser_link.STL" />
       </geometry>
       <material
         name="">
@@ -311,7 +311,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://binocular_laser_profile_scanner/meshes/line_laser_link.STL" />
+          filename="file://$(find binocular_laser_profile_scanner)/meshes/line_laser_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -355,7 +355,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://binocular_laser_profile_scanner/meshes/left_camera_link.STL" />
+          filename="file://$(find binocular_laser_profile_scanner)/meshes/left_camera_link.STL" />
       </geometry>
       <material
         name="">
@@ -369,7 +369,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://binocular_laser_profile_scanner/meshes/left_camera_link.STL" />
+          filename="file://$(find binocular_laser_profile_scanner)/meshes/left_camera_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -408,7 +408,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://binocular_laser_profile_scanner/meshes/right_camera_link.STL" />
+          filename="file://$(find binocular_laser_profile_scanner)/meshes/right_camera_link.STL" />
       </geometry>
       <material
         name="">
@@ -422,7 +422,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://binocular_laser_profile_scanner/meshes/right_camera_link.STL" />
+          filename="file://$(find binocular_laser_profile_scanner)/meshes/right_camera_link.STL" />
       </geometry>
     </collision>
   </link>

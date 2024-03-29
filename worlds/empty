@@ -1,0 +1,617 @@
+<sdf version='1.7'>
+  <world name='default'>
+    <plugin name='gazebo_ros_state' filename='libgazebo_ros_state.so'/>
+    <gravity>0 0 -9.8</gravity>
+    <physics name='default_physics' default='0' type='ode'>
+      <max_step_size>0.01</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>100</real_time_update_rate>
+    </physics>
+    <model name='ground_plane'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='visual'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <script>
+              <name>Gazebo/White</name>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+            </script>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+    </model>
+    <light name='sun' type='directional'>
+      <cast_shadows>1</cast_shadows>
+      <pose>0 0 10 0 -0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+      <spot>
+        <inner_angle>0</inner_angle>
+        <outer_angle>0</outer_angle>
+        <falloff>0</falloff>
+      </spot>
+    </light>
+    <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
+    <atmosphere type='adiabatic'/>
+    <scene>
+      <ambient>0.4 0.4 0.4 1</ambient>
+      <background>0.7 0.7 0.7 1</background>
+      <shadows>1</shadows>
+    </scene>
+    <audio>
+      <device>default</device>
+    </audio>
+    <wind/>
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <latitude_deg>0</latitude_deg>
+      <longitude_deg>0</longitude_deg>
+      <elevation>0</elevation>
+      <heading_deg>0</heading_deg>
+    </spherical_coordinates>
+    <model name='binocular_laser_profile_scanner'>
+      <joint name='world_joint' type='fixed'>
+        <pose relative_to='__model__'>0 0 0 0 -0 0</pose>
+        <parent>world</parent>
+        <child>base_link</child>
+      </joint>
+      <link name='base_link'>
+        <pose relative_to='world_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0.128012 0 0.01878 0 -0 0</pose>
+          <mass>4.03488</mass>
+          <inertia>
+            <ixx>0.0328466</ixx>
+            <ixy>-3.68284e-13</ixy>
+            <ixz>-0.00197998</ixz>
+            <iyy>0.0583372</iyy>
+            <iyz>2.15791e-12</iyz>
+            <izz>0.0901426</izz>
+          </inertia>
+        </inertial>
+        <collision name='base_link_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/ali/ros2_ws/install/binocular_laser_profile_scanner/share/binocular_laser_profile_scanner/meshes/base_link.STL</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='base_link_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/ali/ros2_ws/install/binocular_laser_profile_scanner/share/binocular_laser_profile_scanner/meshes/base_link.STL</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='motor_joint' type='revolute'>
+        <pose relative_to='base_link'>0.18 0 0.0682 3.14159 1.57079 3.14159</pose>
+        <parent>base_link</parent>
+        <child>motor_link</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>0</lower>
+            <upper>3.142</upper>
+            <effort>1000</effort>
+            <velocity>1</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='motor_link'>
+        <pose relative_to='motor_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>-0.015538 0.148369 -0.147865 0 -0 0</pose>
+          <mass>0.111068</mass>
+          <inertia>
+            <ixx>0.00089861</ixx>
+            <ixy>3.85219e-05</ixy>
+            <ixz>-5.5484e-05</ixz>
+            <iyy>0.000667507</iyy>
+            <iyz>0.00027736</iyz>
+            <izz>0.000278957</izz>
+          </inertia>
+        </inertial>
+        <collision name='motor_link_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/ali/ros2_ws/install/binocular_laser_profile_scanner/share/binocular_laser_profile_scanner/meshes/motor_link.STL</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <collision name='motor_link_fixed_joint_lump__scanner_body_link_collision_1'>
+          <pose>-0.004 0.18003 -0.18005 -1.57079 -1.57079 3.14159</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/ali/ros2_ws/install/binocular_laser_profile_scanner/share/binocular_laser_profile_scanner/meshes/scanner_body_link.STL</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <collision name='motor_link_fixed_joint_lump__left_camera_link_collision_2'>
+          <pose>-0.0215 0.148516 -0.106071 -3.14159 0.851966 -1.5708</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/ali/ros2_ws/install/binocular_laser_profile_scanner/share/binocular_laser_profile_scanner/meshes/left_camera_link.STL</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <collision name='motor_link_fixed_joint_lump__right_camera_link_collision_3'>
+          <pose>-0.0215 0.148516 -0.254029 -3.14159 -0.851966 -1.5708</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/ali/ros2_ws/install/binocular_laser_profile_scanner/share/binocular_laser_profile_scanner/meshes/right_camera_link.STL</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='motor_link_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/ali/ros2_ws/install/binocular_laser_profile_scanner/share/binocular_laser_profile_scanner/meshes/motor_link.STL</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <visual name='motor_link_fixed_joint_lump__scanner_body_link_visual_1'>
+          <pose>-0.004 0.18003 -0.18005 -1.57079 -1.57079 3.14159</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/ali/ros2_ws/install/binocular_laser_profile_scanner/share/binocular_laser_profile_scanner/meshes/scanner_body_link.STL</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <visual name='motor_link_fixed_joint_lump__left_camera_link_visual_2'>
+          <pose>-0.0215 0.148516 -0.106071 -3.14159 0.851966 -1.5708</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/ali/ros2_ws/install/binocular_laser_profile_scanner/share/binocular_laser_profile_scanner/meshes/left_camera_link.STL</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <visual name='motor_link_fixed_joint_lump__right_camera_link_visual_3'>
+          <pose>-0.0215 0.148516 -0.254029 -3.14159 -0.851966 -1.5708</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/ali/ros2_ws/install/binocular_laser_profile_scanner/share/binocular_laser_profile_scanner/meshes/right_camera_link.STL</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <sensor name='left_camera' type='camera'>
+          <update_rate>5</update_rate>
+          <camera name='head'>
+            <horizontal_fov>1.287</horizontal_fov>
+            <image>
+              <width>600</width>
+              <height>600</height>
+              <format>R8G8B8</format>
+            </image>
+            <clip>
+              <near>0.02</near>
+              <far>2</far>
+            </clip>
+            <noise>
+              <type>gaussian</type>
+              <mean>0</mean>
+              <stddev>0.007</stddev>
+            </noise>
+          </camera>
+          <plugin name='camera_controller_1' filename='libgazebo_ros_camera.so'>
+            <alwaysOn>1</alwaysOn>
+            <visualize>1</visualize>
+            <updateRate>0.0</updateRate>
+            <cameraName>my_package/left_camera</cameraName>
+            <imageTopicName>image_raw</imageTopicName>
+            <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+            <frameName>camera_link</frameName>
+            <hackBaseline>0.07</hackBaseline>
+            <distortionK1>0.0</distortionK1>
+            <distortionK2>0.0</distortionK2>
+            <distortionK3>0.0</distortionK3>
+            <distortionT1>0.0</distortionT1>
+            <distortionT2>0.0</distortionT2>
+          </plugin>
+          <pose>-0.0215 0.148516 -0.106071 -3.14159 0.851966 -1.5708</pose>
+        </sensor>
+        <sensor name='right_camera' type='camera'>
+          <update_rate>5</update_rate>
+          <camera name='head'>
+            <horizontal_fov>1.287</horizontal_fov>
+            <image>
+              <width>600</width>
+              <height>600</height>
+              <format>R8G8B8</format>
+            </image>
+            <clip>
+              <near>0.02</near>
+              <far>2</far>
+            </clip>
+            <noise>
+              <type>gaussian</type>
+              <mean>0</mean>
+              <stddev>0.007</stddev>
+            </noise>
+          </camera>
+          <plugin name='camera_controller_2' filename='libgazebo_ros_camera.so'>
+            <alwaysOn>1</alwaysOn>
+            <visualize>1</visualize>
+            <updateRate>0.0</updateRate>
+            <cameraName>my_package/right_camera</cameraName>
+            <imageTopicName>image_raw</imageTopicName>
+            <cameraInfoTopicName>camera_info</cameraInfoTopicName>
+            <frameName>camera_link</frameName>
+            <hackBaseline>0.07</hackBaseline>
+            <distortionK1>0.0</distortionK1>
+            <distortionK2>0.0</distortionK2>
+            <distortionK3>0.0</distortionK3>
+            <distortionT1>0.0</distortionT1>
+            <distortionT2>0.0</distortionT2>
+          </plugin>
+          <pose>-0.0215 0.148516 -0.254029 -3.14159 -0.851966 -1.5708</pose>
+        </sensor>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='line_laser_joint' type='revolute'>
+        <pose relative_to='motor_link'>-0.0215 0.153784 -0.18005 -1.57079 -1.57079 -3.14159</pose>
+        <parent>motor_link</parent>
+        <child>line_laser_link</child>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>0</lower>
+            <upper>0</upper>
+            <effort>0</effort>
+            <velocity>0</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='line_laser_link'>
+        <pose relative_to='line_laser_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>0 0 -0.01825 0 -0 0</pose>
+          <mass>0.00401885</mass>
+          <inertia>
+            <ixx>4.82239e-07</ixx>
+            <ixy>-3.21692e-23</ixy>
+            <ixz>1.93546e-23</ixz>
+            <iyy>4.82239e-07</iyy>
+            <iyz>-1.34667e-23</iyz>
+            <izz>7.10331e-08</izz>
+          </inertia>
+        </inertial>
+        <collision name='line_laser_link_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/ali/ros2_ws/install/binocular_laser_profile_scanner/share/binocular_laser_profile_scanner/meshes/line_laser_link.STL</uri>
+            </mesh>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='line_laser_link_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/ali/ros2_ws/install/binocular_laser_profile_scanner/share/binocular_laser_profile_scanner/meshes/line_laser_link.STL</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <projector name='projector'>
+          <pose>0 0 0 3.14159 -0 3.14159</pose>
+          <texture>line_laser_5p.png</texture>
+          <fov>1.57</fov>
+          <near_clip>0.005</near_clip>
+          <far_clip>1</far_clip>
+        </projector>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='rot_table_joint' type='revolute'>
+        <pose relative_to='base_link'>0 0 0.04 0 -0 0</pose>
+        <parent>base_link</parent>
+        <child>rot_table_link</child>
+        <axis>
+          <xyz>0 0 -1</xyz>
+          <limit>
+            <lower>0</lower>
+            <upper>12.568</upper>
+            <effort>100</effort>
+            <velocity>0.01</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+        </axis>
+      </joint>
+      <link name='rot_table_link'>
+        <pose relative_to='rot_table_joint'>0 0 0 0 -0 0</pose>
+        <inertial>
+          <pose>-0 -0.000568 0.011048 0 -0 0</pose>
+          <mass>1.23306</mass>
+          <inertia>
+            <ixx>0.00516628</ixx>
+            <ixy>-8.15903e-12</ixy>
+            <ixz>-3.29498e-13</ixz>
+            <iyy>0.00568331</iyy>
+            <iyz>-4.68797e-05</iyz>
+            <izz>0.00881566</izz>
+          </inertia>
+        </inertial>
+        <collision name='rot_table_link_collision'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/ali/ros2_ws/install/binocular_laser_profile_scanner/share/binocular_laser_profile_scanner/meshes/rot_table_link.STL</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <collision name='rot_table_link_fixed_joint_lump__object_link_collision_1'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/ali/ros2_ws/install/binocular_laser_profile_scanner/share/binocular_laser_profile_scanner/meshes/object_link.STL</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <visual name='rot_table_link_visual'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/ali/ros2_ws/install/binocular_laser_profile_scanner/share/binocular_laser_profile_scanner/meshes/rot_table_link.STL</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <visual name='rot_table_link_fixed_joint_lump__object_link_visual_1'>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>file:///home/ali/ros2_ws/install/binocular_laser_profile_scanner/share/binocular_laser_profile_scanner/meshes/object_link.STL</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <plugin name='projector_controller' filename='libgazebo_ros_projector.so'>
+        <projector>line_laser_link/projector</projector>
+        <alwaysOn>1</alwaysOn>
+        <updateRate>15.0</updateRate>
+        <textureName>line_laser_5p.png</textureName>
+        <textureTopicName>projector_controller/image</textureTopicName>
+        <projectorTopicName>projector_controller/projector</projectorTopicName>
+      </plugin>
+      <static>0</static>
+      <plugin name='gazebo_ros2_control' filename='libgazebo_ros2_control.so'>
+        <parameters>/home/ali/ros2_ws/install/binocular_laser_profile_scanner/share/binocular_laser_profile_scanner/config/joint_config.yaml</parameters>
+      </plugin>
+      <pose>0 0 0 0 -0 0</pose>
+    </model>
+    <state world_name='default'>
+      <sim_time>53 40000000</sim_time>
+      <real_time>53 58734683</real_time>
+      <wall_time>1710759647 931227959</wall_time>
+      <iterations>5304</iterations>
+      <model name='ground_plane'>
+        <pose>0 0 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose>0 0 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='binocular_laser_profile_scanner'>
+        <pose>-0 0 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='base_link'>
+          <pose>-0 0 0 0 -0 0</pose>
+          <velocity>0 -0 -0 -0 -0 -0</velocity>
+          <acceleration>-0 0 0 0 -0 0</acceleration>
+          <wrench>-0 0 0 0 -0 0</wrench>
+        </link>
+        <link name='line_laser_link'>
+          <pose>-5e-05 0.153929 0.088762 1.56469 -0 0</pose>
+          <velocity>-1e-06 0.012899 -0.094115 -0.611731 -0 4e-06</velocity>
+          <acceleration>0 -3e-06 -1e-06 2.7e-05 1.6e-05 0</acceleration>
+          <wrench>0 -0 -0 0 -0 0</wrench>
+        </link>
+        <link name='motor_link'>
+          <pose>0.18 1.4e-05 0.068201 -1.57183 1.56468 -1.57183</pose>
+          <velocity>-0 0.000278 2.8e-05 -0.61173 -0 4e-06</velocity>
+          <acceleration>-5.8e-05 0.922746 -9.07899 -0.853358 0.291899 1.74646</acceleration>
+          <wrench>-6e-06 0.102488 -1.00839 0 -0 0</wrench>
+        </link>
+        <link name='rot_table_link'>
+          <pose>-0 0 0.04 0 -0 0</pose>
+          <velocity>-0 -0 -0 -0 -0 -0</velocity>
+          <acceleration>-0 -0 -0 0 -0 -9e-06</acceleration>
+          <wrench>-0 -0 -0 0 -0 0</wrench>
+        </link>
+      </model>
+      <light name='sun'>
+        <pose>0 0 10 0 -0 0</pose>
+      </light>
+    </state>
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose>-0.42333 0.261663 0.273536 0 0.415643 -0.567811</pose>
+        <view_controller>orbit</view_controller>
+        <projection_type>perspective</projection_type>
+      </camera>
+    </gui>
+  </world>
+</sdf>

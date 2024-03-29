@@ -1,53 +1,20 @@
 <?xml version="1.0"?>
-<package format="2">
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
   <name>binocular_laser_profile_scanner</name>
-  <version>1.0.0</version>
-  <description>
-    <p>URDF Description package for binocular_laser_profile_scanner</p>
-    <p>This package contains configuration data, 3D models and launch files for binocular_laser_profile_scanner </p>
-  </description>
+  <version>0.0.0</version>
+  <description>TODO: Package description</description>
+  <maintainer email="ali@todo.todo">ali</maintainer>
+  <license>Apache-2.0</license>
 
-  <author>TODO</author>
-  <maintainer email="TODO@email.com" />
-  <license>BSD</license>
+  <test_depend>ament_copyright</test_depend>
+  <test_depend>ament_flake8</test_depend>
+  <test_depend>ament_pep257</test_depend>
+  <test_depend>python3-pytest</test_depend>
 
-  <buildtool_depend>catkin</buildtool_depend>
-
-  <build_depend>message_generation</build_depend>
-  <build_depend>roscpp</build_depend>
-  <build_depend>rospy</build_depend>
-  <build_depend>cv_bridge</build_depend>
-  <build_depend>std_msgs</build_depend>
-  <build_depend>geometry_msgs</build_depend>
-  <build_depend>urdf</build_depend>
-  <build_depend>xacro</build_depend>
-  <build_depend>std_msgs</build_depend>
-
-  <depend>roslaunch</depend>
-  <depend>robot_state_publisher</depend>
-  <depend>rviz</depend>
-  <depend>joint_state_publisher</depend>
-  <depend>joint_state_publisher_gui</depend>
-  <depend>gazebo</depend>
-  <depend>moveit_simple_controller_manager</depend>
-
-  <build_export_depend>roscpp</build_export_depend>
-  <build_export_depend>rospy</build_export_depend>
-  <build_export_depend>cv_bridge</build_export_depend>
-  <build_export_depend>std_msgs</build_export_depend>
-  <build_export_depend>geometry_msgs</build_export_depend>
-  <build_export_depend>urdf</build_export_depend>
-  <build_export_depend>xacro</build_export_depend>
-  <exec_depend>roscpp</exec_depend>
-  <exec_depend>rospy</exec_depend>
-  <exec_depend>cv_bridge</exec_depend>
-  <exec_depend>std_msgs</exec_depend>
-  <exec_depend>geometry_msgs</exec_depend>
-  <exec_depend>urdf</exec_depend>
-  <exec_depend>xacro</exec_depend>
-  <exec_depend>message_runtime</exec_depend>
+  <exec_depend>gazebo_ros_pkgs</exec_depend>
 
   <export>
-    <architecture_independent />
+    <build_type>ament_python</build_type>
   </export>
 </package>

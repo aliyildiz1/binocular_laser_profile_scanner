@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <robot>  
   <!--
-    CHANGES 
-    * Pixel numbers of image sensor reduced to 600 px x 600 px due to low fps
-
-    Image Sensor Specs used before 
-    Sensor: IMX548
-    Resolution (H x V):2448 px × 2048 px
-    Pixel Size (H x V)	2.74 μm × 2.74 μm
-
     Image Sensor Specs used currently
     Sensor: Custom
     Resolution (H x V):600 px × 600 px
@@ -42,17 +34,15 @@
         </clip>
         <noise>
           <type>gaussian</type>
-          <!-- Noise is sampled independently per pixel on each frame.
-               That pixel's noise value is added to each of its color
-               channels, which at that point lie in the range [0,1]. -->
           <mean>0.0</mean>
           <stddev>0.007</stddev>
         </noise>
       </camera>
-      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+      <plugin name="camera_controller_1" filename="libgazebo_ros_camera.so">
         <alwaysOn>true</alwaysOn>
+        <visualize>true</visualize>
         <updateRate>0.0</updateRate>
-        <cameraName>binocular_laser_profile_scanner/left_camera</cameraName>
+        <cameraName>my_package/left_camera</cameraName>
         <imageTopicName>image_raw</imageTopicName>
         <cameraInfoTopicName>camera_info</cameraInfoTopicName>
         <frameName>camera_link</frameName>
@@ -83,17 +73,15 @@
         </clip>
         <noise>
           <type>gaussian</type>
-          <!-- Noise is sampled independently per pixel on each frame.
-               That pixel's noise value is added to each of its color
-               channels, which at that point lie in the range [0,1]. -->
           <mean>0.0</mean>
           <stddev>0.007</stddev>
         </noise>
       </camera>
-      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+      <plugin name="camera_controller_2" filename="libgazebo_ros_camera.so">
         <alwaysOn>true</alwaysOn>
+        <visualize>true</visualize>
         <updateRate>0.0</updateRate>
-        <cameraName>binocular_laser_profile_scanner/right_camera</cameraName>
+        <cameraName>my_package/right_camera</cameraName>
         <imageTopicName>image_raw</imageTopicName>
         <cameraInfoTopicName>camera_info</cameraInfoTopicName>
         <frameName>camera_link</frameName>

@@ -1,0 +1,17 @@
+<sdf version='1.7'>
+  <world name="default">
+  <plugin name="gazebo_ros_state" filename="libgazebo_ros_state.so"/>
+
+   <gravity>0 0 -9.8</gravity>
+    <physics default="0" name="default_physics" type="ode">
+      <max_step_size>0.01</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>100</real_time_update_rate>
+    </physics>
+
+    <include>
+      <uri>model://sun</uri>
+    </include>
+    
+  </world>
+</sdf>

@@ -1,15 +1,16 @@
-binocular_laser_profile_scanner:
-  joint_state_controller:
-    type: joint_state_controller/JointStateController
-    publish_rate: 50
+controller_manager:
+  ros__parameters:
+    update_rate: 100  # Hz
 
-  # position controllers
-  rot_table_angular_position_controller:
-    type: effort_controllers/JointPositionController
-    joint: rot_table_joint
-    pid: {p: 10.0, i: 5.0, d: 1.0}
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
 
-  scanner_angular_position_controller:
-    type: effort_controllers/JointPositionController
-    joint: motor_joint
-    pid: {p: 10.0, i: 5.0, d: 1.0}
+    position_controller:
+      type: position_controllers/JointGroupPositionController
+
+position_controller:
+  ros__parameters:
+    joints:
+      - rot_table_joint
+      - motor_joint
+      - line_laser_joint
